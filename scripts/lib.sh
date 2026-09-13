@@ -35,3 +35,19 @@ open_pr() {
   gh pr create --base "$BASE" --head "$branch" --title "$msg" --body "Automatizado por scripts/ deste repo." \
     | tail -1
 }
+
+# Mescla um PR com retentativas: o GitHub leva alguns segundos para calcular a
+# mergeabilidade de um PR recem-criado e ate la o merge falha com
+# "Base branch was modified".
+# uso: merge_pr <url-ou-numero> [tentativas]
+merge_pr() {
+  local pr="$1" tries="${2:-8}" i
+  for i in $(seq 1 "$tries"); do
+    if gh pr merge "$pr" --merge --delete-branch >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep $(( i < 5 ? i * 2 : 10 ))
+  done
+  echo "falha ao mesclar $pr apos $tries tentativas" >&2
+  return 1
+}

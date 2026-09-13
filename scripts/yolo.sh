@@ -10,5 +10,5 @@ trap 'git switch --quiet "$START_BRANCH" || true' EXIT
 
 url="$(open_pr "yolo" "chore: yolo merge")"
 git switch --quiet "$START_BRANCH"
-gh pr merge "$url" --merge --delete-branch >/dev/null
+merge_pr "$url"
 log "YOLO garantido: $url"

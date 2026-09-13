@@ -14,7 +14,7 @@ log "Abrindo e mesclando $N PR(s) em $REPO (base: $BASE)"
 for i in $(seq 1 "$N"); do
   url="$(open_pr "pull-shark" "chore: pull shark $i/$N")"
   git switch --quiet "$START_BRANCH"
-  gh pr merge "$url" --merge --delete-branch >/dev/null
+  merge_pr "$url"
   log "[$i/$N] merged: $url"
   sleep "${DELAY:-5}"
 done

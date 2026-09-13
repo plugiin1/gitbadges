@@ -19,6 +19,6 @@ trap 'git switch --quiet "$START_BRANCH" || true' EXIT
 
 url="$(open_pr "pair-extraordinaire" "chore: pair programming" "Co-authored-by: $NAME <$EMAIL>")"
 git switch --quiet "$START_BRANCH"
-gh pr merge "$url" --merge --delete-branch >/dev/null
+merge_pr "$url"
 log "PR co-autorado mesclado: $url"
 log "Confira na pagina do commit se o avatar do co-autor aparece; se nao, o e-mail esta errado."
